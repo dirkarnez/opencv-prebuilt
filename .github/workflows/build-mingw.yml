@@ -13,7 +13,7 @@ jobs:
       libraryName: opencv
       cmakeInstallationPath: opencv-installation
       tagName: 4.5.5
-      mingwTargetZip: opencv-${{ github.ref_name }}-x86_64-posix-seh-rev0-8.1.0.zip
+      mingwTargetZip: opencv-${{ github.ref_name }}-winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip
     steps:
       - name: git clone
         shell: cmd
