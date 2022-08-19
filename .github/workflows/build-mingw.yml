@@ -35,7 +35,7 @@ jobs:
             ${{ github.workspace }}\mingw64\bin;^
             ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
             gcc --version &&^
-            cd opencv && cmake.exe -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_opencv_objdetect:BOOL="0" -DWITH_GSTREAMER:BOOL="1" -DGSTREAMER_glib_INCLUDE_DIR:PATH="GSTREAMER_glib_INCLUDE_DIR-NOTFOUND" -DBUILD_PERF_TESTS:BOOL="0" -DBUILD_JAVA:BOOL="0" -DBUILD_opencv_python_bindings_generator:BOOL="0" -DBUILD_opencv_objc_bindings_generator:BOOL="0" -DBUILD_JASPER:BOOL="0" -DBUILD_opencv_python_tests:BOOL="0" -DBUILD_opencv_java_bindings_generator:BOOL="0" -DEigen3_DIR:PATH="D:/Code Projects/cpp-libraries/eigen-v3.4.0-x86_64-posix-seh-rev0-8.1.0" -DBUILD_SHARED_LIBS:BOOL="0" -DEIGEN_INCLUDE_PATH:PATH="EIGEN_INCLUDE_PATH-NOTFOUND" -DBUILD_opencv_js_bindings_generator:BOOL="0" -DWITH_GDCM:BOOL="0" -DCMAKE_INSTALL_PREFIX="build/${{ env.cmakeInstallationPath }}" -B./build &&^
+            cd opencv && cmake.exe -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_opencv_objdetect:BOOL="0" -DWITH_GSTREAMER:BOOL="1" -DGSTREAMER_glib_INCLUDE_DIR:PATH="GSTREAMER_glib_INCLUDE_DIR-NOTFOUND" -DBUILD_PERF_TESTS:BOOL="0" -DBUILD_JAVA:BOOL="0" -DBUILD_opencv_python_bindings_generator:BOOL="0" -DBUILD_opencv_objc_bindings_generator:BOOL="0" -DBUILD_JASPER:BOOL="0" -DBUILD_opencv_python_tests:BOOL="0" -DBUILD_opencv_java_bindings_generator:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_opencv_js_bindings_generator:BOOL="0" -DWITH_GDCM:BOOL="0" -DCMAKE_INSTALL_PREFIX="build/${{ env.cmakeInstallationPath }}" -B./build &&^
             cd build && cmake --build . && cmake --install . 
         
       - name: Archive Release
