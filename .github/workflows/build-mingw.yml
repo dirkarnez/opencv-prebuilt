@@ -9,16 +9,16 @@ on:
 jobs:
   build:
     name: Create Release
-    runs-on: windows-2019
+    runs-on: windows-latest
     env:
       libraryName: opencv
       cmakeInstallationPath: opencv-installation
-      # tagName: 4.5.5
+      tagName: 4.7.0
       mingwTargetZip: opencv-${{ github.ref_name }}-winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64-9.0.0-r1.zip
     steps:
       - name: git clone
         shell: cmd
-        run: git clone --recursive https://github.com/opencv/opencv.git # && cd opencv && git checkout ${{ env.tagName }}
+        run: git clone --recursive https://github.com/opencv/opencv.git && cd opencv && git checkout ${{ env.tagName }}
       
       - name: curl x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
         shell: cmd
@@ -36,19 +36,37 @@ jobs:
             ${{ github.workspace }}\mingw64\bin;^
             ${{ github.workspace }}\cmake-3.24.0-windows-x86_64\bin;^
             gcc --version &&^
-            cd opencv && cmake.exe -G"MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DBUILD_opencv_objdetect:BOOL="0" -DWITH_GSTREAMER:BOOL="1" -DGSTREAMER_glib_INCLUDE_DIR:PATH="GSTREAMER_glib_INCLUDE_DIR-NOTFOUND" -DBUILD_PERF_TESTS:BOOL="0" -DBUILD_JAVA:BOOL="0" -DBUILD_opencv_python_bindings_generator:BOOL="0" -DBUILD_opencv_objc_bindings_generator:BOOL="0" -DBUILD_JASPER:BOOL="0" -DBUILD_opencv_python_tests:BOOL="0" -DBUILD_opencv_java_bindings_generator:BOOL="0" -DBUILD_SHARED_LIBS:BOOL="0" -DBUILD_opencv_js_bindings_generator:BOOL="0" -DWITH_GDCM:BOOL="0" -DCMAKE_INSTALL_PREFIX="build/${{ env.cmakeInstallationPath }}" -B./build &&^
-            cd build && cmake --build . && cmake --install . 
+            cd opencv &&^
+            cmake.exe -G"MinGW Makefiles" ^
+            -DCMAKE_BUILD_TYPE=Release ^
+            -DBUILD_opencv_objdetect:BOOL="0" ^
+            -DWITH_GSTREAMER:BOOL="1" ^
+            -DGSTREAMER_glib_INCLUDE_DIR:PATH="GSTREAMER_glib_INCLUDE_DIR-NOTFOUND" ^
+            -DBUILD_PERF_TESTS:BOOL="0" ^
+            -DBUILD_JAVA:BOOL="0" ^
+            -DBUILD_opencv_python_bindings_generator:BOOL="0" ^
+            -DBUILD_opencv_objc_bindings_generator:BOOL="0" ^
+            -DBUILD_JASPER:BOOL="0" ^
+            -DBUILD_opencv_python_tests:BOOL="0" ^
+            -DBUILD_opencv_java_bindings_generator:BOOL="0" ^
+            -DBUILD_SHARED_LIBS:BOOL="1" ^
+            -DBUILD_opencv_js_bindings_generator:BOOL="0" ^
+            -DWITH_GDCM:BOOL="0" ^
+            -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
+            cd cmake-build &&^
+            cmake --build . &&^
+            cmake --install . 
         
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "opencv/build/${{ env.cmakeInstallationPath }}"
+          directory: "opencv/cmake-build/${{ env.cmakeInstallationPath }}"
           filename: "${{ env.mingwTargetZip }}"
         
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "opencv/build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
+          artifacts: "opencv/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.mingwTargetZip }}"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
