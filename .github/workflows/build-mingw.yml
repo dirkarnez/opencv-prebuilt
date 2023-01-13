@@ -39,17 +39,17 @@ jobs:
             cd opencv &&^
             cmake.exe -G"MinGW Makefiles" ^
             -DCMAKE_BUILD_TYPE=Release ^
-            -DBUILD_opencv_objdetect:BOOL="0" ^
+            -DBUILD_opencv_objdetect:BOOL="1" ^
             -DWITH_GSTREAMER:BOOL="1" ^
             -DGSTREAMER_glib_INCLUDE_DIR:PATH="GSTREAMER_glib_INCLUDE_DIR-NOTFOUND" ^
             -DBUILD_PERF_TESTS:BOOL="0" ^
             -DBUILD_JAVA:BOOL="0" ^
             -DBUILD_opencv_python_bindings_generator:BOOL="0" ^
             -DBUILD_opencv_objc_bindings_generator:BOOL="0" ^
-            -DBUILD_JASPER:BOOL="0" ^
+            -DBUILD_JASPER:BOOL="1" ^
             -DBUILD_opencv_python_tests:BOOL="0" ^
             -DBUILD_opencv_java_bindings_generator:BOOL="0" ^
-            -DBUILD_SHARED_LIBS:BOOL="1" ^
+            -DBUILD_SHARED_LIBS:BOOL="0" ^
             -DBUILD_opencv_js_bindings_generator:BOOL="0" ^
             -DWITH_GDCM:BOOL="0" ^
             -DCMAKE_INSTALL_PREFIX="cmake-build/${{ env.cmakeInstallationPath }}" -B./cmake-build &&^
